@@ -21,9 +21,17 @@ async def analyze_image(request: Request):
 
     try:    
         # Check if Photo is face or object
+        # try:    
+        #     result1  = DeepFace.analyze(img_path=base64_image,detector_backend="retinaface",align=True, enforce_detection=True, anti_spoofing=True)
+        #     print(result1, "result1")
+        # except Exception as e:
+        #     print(f"Error: {str(e)}")
+        #     return ApiResponse(
+        #         Result=None,
+        #         Status=False,
+        #         Message=f"Error processing image: {str(e)} Please try again..."
+        #     )
         result = DeepFace.extract_faces(img_path=base64_image,detector_backend="retinaface",align=True,normalize_face=True, enforce_detection=True, anti_spoofing=True)
-        print(result, "result")
-        print(len(result),'len of the result')
         if(len(result) == 0):
             return ApiResponse(
                 Result=result,
@@ -31,6 +39,7 @@ async def analyze_image(request: Request):
                 Message="Something went wrong. No faces detected! Please try again..."
             )
         if(len(result) > 1):
+            print("len 2",result)
             return ApiResponse(
                 Result=None,
                 Status=False,
@@ -40,7 +49,7 @@ async def analyze_image(request: Request):
         if len(result) == 1:
             face_analysis_result = FaceAnalysisResult(
                 is_real=result[0].get('is_real'),
-                antispoof_score=result[0].get('antispoof_score')
+                antispoof_score=result[0].get('antispoof_score') * 100
             )
             return ApiResponse(
                 Result=face_analysis_result,
@@ -52,5 +61,5 @@ async def analyze_image(request: Request):
         return ExceptionApiResponse(
             Result=None,
             Status=False,
-            Message=f"Error processing image: {str(e)[:-49]} Please try again..."
+            Message=f"Error processing image: {str(e)} Please try again..."
         )
