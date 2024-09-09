@@ -1,0 +1,80 @@
+# Facial Analysis API
+
+## Setting up the Python Environment
+
+This project uses Python 3.12. Follow these steps to set up your environment using Miniconda on Windows.
+
+### Prerequisites
+
+- Miniconda installed on your Windows system. If not installed, download and install from [Miniconda website](https://docs.conda.io/en/latest/miniconda.html).
+
+### Steps
+
+1. Open Anaconda Prompt (Miniconda3) from the Start menu.
+
+2. Create a new conda environment:
+   ```
+   conda create -n facial_analysis_env python=3.12
+   ```
+
+3. Activate the new environment:
+   ```
+   conda activate facial_analysis_env
+   ```
+
+4. Install required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+### Usage
+
+- To activate the environment in the future, open Anaconda Prompt and run:
+  ```
+  conda activate facial_analysis_env
+  ```
+
+- To deactivate the environment when you're done, run:
+  ```
+  conda deactivate
+  ```
+
+## Running the API
+
+After setting up the environment and activating it, you can run the API using:
+
+```
+uvicorn main:app --reload --port 9000
+```
+
+or
+
+```   
+python -m uvicorn main:app --reload --port 9000
+```
+### Running the API in the Server
+
+## Install Miniconda in the Server so that Other APIs python packages are not disturbed
+## Install for All Users
+
+In Server Rules 
+Add below rules in PROXY rules 
+## the local host url where the api runs
+``` 
+for example:in this case the api runs on localhost:9000
+http://localhost:9000
+```
+And then add these changes to the Rules in the conditions
+``` 
+1. Input: {REQUEST_METHOD}
+2. Type: Matches the Pattern
+3. Pattern: ^(GET|POST|PUT|DELETE)$ (this matches HTTP methods: GET, POST, PUT, DELETE)
+```
+
+
+Activated Conda Environment in Environment variables of the server
+By Adding the below paths to the Environment variables.
+``` 
+C:/ProgramData/Miniconda3/
+C:/ProgramData/Miniconda3/Scripts/
+```

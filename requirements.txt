@@ -1,0 +1,6 @@
+uvicorn
+fastapi
+deepface
+tf-keras
+facenet-pytorch
+pydantic
