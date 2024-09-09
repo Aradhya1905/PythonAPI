@@ -21,7 +21,7 @@ async def analyze_image(request: Request):
 
     try:    
         # Check if Photo is face or object
-        result = DeepFace.extract_faces(img_path=base64_image, enforce_detection=True, anti_spoofing=True)
+        result = DeepFace.extract_faces(img_path=base64_image,detector_backend="retinaface",align=True,normalize_face=True, enforce_detection=True, anti_spoofing=True)
         print(result, "result")
         print(len(result),'len of the result')
         if(len(result) == 0):
