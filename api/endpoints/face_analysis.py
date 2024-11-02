@@ -32,6 +32,7 @@ async def analyze_image(request: Request):
         #         Message=f"Error processing image: {str(e)} Please try again..."
         #     )
         result = DeepFace.extract_faces(img_path=base64_image,detector_backend="retinaface",align=True,normalize_face=True, enforce_detection=True, anti_spoofing=True)
+       
         if(len(result) == 0):
             return ApiResponse(
                 Result=result,
@@ -58,6 +59,12 @@ async def analyze_image(request: Request):
             )
     except Exception as e:
         print(f"Error: {str(e)}")
+        if "face could not be detected" in str(e).lower():
+            return ApiResponse(
+                Result=None,
+                Status=False,
+                Message="Unable to detect a face in your image. Please ensure your face is clearly visible and try again."
+            )
         return ExceptionApiResponse(
             Result=None,
             Status=False,
